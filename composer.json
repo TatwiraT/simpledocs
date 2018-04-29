@@ -2,7 +2,7 @@
     "name": "simpledocs/simpledocs",
     "description": "SimpleDocs is a dynamic documentation library for PHP which uses Markdown files",
     "type": "library",
-    "license": "MIT License",
+    "license": "MIT",
     "authors": [
         {
             "name": "Anderson Salas",
