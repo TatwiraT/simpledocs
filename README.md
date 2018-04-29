@@ -17,7 +17,7 @@ SimpleDocs is a dynamic documentation library for PHP which uses Markdown files.
 SimpleDocs is available with Composer:
 
 ```
-composer require andersonsalas/simpledocs
+composer require simpledocs/simpledocs
 ```
 
 ### Usage
