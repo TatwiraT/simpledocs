@@ -1,0 +1,140 @@
+<?php
+
+/**
+ * SimpleDocsFile
+ *
+ * @author Anderson Salas <anderson@ingenia.me>
+ * @license MIT License
+ */
+
+namespace SimpleDocs;
+
+class SimpleDocsFile
+{
+    private $instance;
+
+    private $filePath;
+
+    private $attributes = [];
+
+    private $content;
+
+    private $output;
+
+    private $parsedown;
+
+    private $template;
+
+    private $lastModified;
+
+    /**
+     * Class constructor
+     *
+     * @param  mixed  $path Absolute file path
+     *
+     * @return void
+     *
+     * @access public
+     */
+    public function __construct(SimpleDocs $instance, String $path)
+    {
+        $this->instance     = $instance;
+        $this->filePath     = $path;
+        $this->content      = file_get_contents($path);
+        $this->parsedown    = new \Parsedown();
+        $this->lastModified = (int) filemtime($path);
+        $this->attributes   = $instance->parseAttributes($path);
+        $this->ouput        = $this->parsedown->text($this->content);
+    }
+
+
+    /**
+     * Parses Markdown comments as file attributes
+     *
+     * @return mixed
+     *
+     * @access private
+     */
+    private function parseAttributes()
+    {
+        $lines = file($this->filePath, FILE_SKIP_EMPTY_LINES | FILE_IGNORE_NEW_LINES);
+
+        foreach($lines as $line)
+        {
+            $matches = [];
+            if(preg_match('/^\[\/\/\]:\s#\s\((.*)\)$/', $line, $matches))
+            {
+                $attribute = $matches[1];
+                if(preg_match('/^\[(.*)\](.*)$/', $attribute, $matches))
+                {
+                    list(,$name,$value) = $matches;
+                    $name = trim($name);
+                    if(!isset($this->attributes[$name]))
+                    {
+                        $this->attributes[$name] = trim($value);
+                    }
+                }
+            }
+            else
+            {
+                break;
+            }
+
+        }
+    }
+
+
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+
+
+    public function getLastModified()
+    {
+        return $this->lastModified;
+    }
+
+
+    public function render(array $vars = [], bool $return = false)
+    {
+        $twig = $this->instance->getTwigEnvironment();
+
+        if(!empty($twig))
+        {
+            $this->template = $twig->createTemplate($this->ouput);
+        }
+        else
+        {
+            if(!empty($vars))
+            {
+                throw new SimpleDocsException("You must provide a Twig_Environment object in order to use template pre-processing");
+            }
+        }
+
+        if(empty($twig))
+        {
+            if(!$return)
+            {
+                echo $this->ouput;
+            }
+
+            return $this->ouput;
+        }
+
+        return $this->template->{ $return ? 'render' : 'display' }(array_merge($this->attributes, $vars));
+    }
+
+
+    public function toArray(array $vars = [])
+    {
+        $output =  $this->render($vars, true);
+
+        return [
+            'output'     => $output,
+            'attributes' => $this->attributes,
+            'document'   => $this,
+        ];
+    }
+
+}
