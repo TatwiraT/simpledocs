@@ -48,42 +48,6 @@ class SimpleDocsFile
     }
 
 
-    /**
-     * Parses Markdown comments as file attributes
-     *
-     * @return mixed
-     *
-     * @access private
-     */
-    private function parseAttributes()
-    {
-        $lines = file($this->filePath, FILE_SKIP_EMPTY_LINES | FILE_IGNORE_NEW_LINES);
-
-        foreach($lines as $line)
-        {
-            $matches = [];
-            if(preg_match('/^\[\/\/\]:\s#\s\((.*)\)$/', $line, $matches))
-            {
-                $attribute = $matches[1];
-                if(preg_match('/^\[(.*)\](.*)$/', $attribute, $matches))
-                {
-                    list(,$name,$value) = $matches;
-                    $name = trim($name);
-                    if(!isset($this->attributes[$name]))
-                    {
-                        $this->attributes[$name] = trim($value);
-                    }
-                }
-            }
-            else
-            {
-                break;
-            }
-
-        }
-    }
-
-
     public function getAttributes()
     {
         return $this->attributes;
