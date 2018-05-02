@@ -166,7 +166,7 @@ class SimpleDocs
                 $_directory[] = preg_match('/^[0-9]{3}_/',$_segment) ? substr($_segment, 4) : $_segment ;
             }
 
-            $basename = rtrim(
+            $basename = trim(
                 substr(  implode('/', $_directory) . '/' . (preg_match('/^[0-9]{3}_/',$file) ? substr($file, 4) : $file ),  0, -3), '/'
             );
 
@@ -184,7 +184,7 @@ class SimpleDocs
             }
             else
             {
-               $this->parseDirectory(rtrim($directory) . '/' . $file);
+               $this->parseDirectory(trim($directory) . '/' . $file);
             }
         }
     }
