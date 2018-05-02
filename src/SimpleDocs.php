@@ -149,7 +149,7 @@ class SimpleDocs
      */
     private function parseDirectory(string $directory = '')
     {
-        $directory = trim($directory,'/');
+        $directory = rtrim($directory,'/');
         $path = $this->baseDir . '/' . $directory ;
 
         foreach(scandir($path) as $file)
@@ -166,11 +166,11 @@ class SimpleDocs
                 $_directory[] = preg_match('/^[0-9]{3}_/',$_segment) ? substr($_segment, 4) : $_segment ;
             }
 
-            $basename = trim(
+            $basename = rtrim(
                 substr(  implode('/', $_directory) . '/' . (preg_match('/^[0-9]{3}_/',$file) ? substr($file, 4) : $file ),  0, -3), '/'
             );
 
-            $fullPath = trim($path, '/') . '/' . $file;
+            $fullPath = rtrim($path, '/') . '/' . $file;
 
             if(!is_dir($fullPath))
             {
@@ -184,7 +184,7 @@ class SimpleDocs
             }
             else
             {
-               $this->parseDirectory(trim($directory) . '/' . $file);
+               $this->parseDirectory(rtrim($directory) . '/' . $file);
             }
         }
     }
