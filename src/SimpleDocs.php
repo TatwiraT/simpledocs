@@ -202,6 +202,7 @@ class SimpleDocs
         if($this->enableManifest)
         {
             $manifestPath = $this->baseDir . '/manifest.json';
+
             if(!$this->filesystem->exists($manifestPath) || ($this->rebuildManifestAlways && $this->filesystem->exists($manifestPath)))
             {
                 $this->parseDirectory();
@@ -244,6 +245,7 @@ class SimpleDocs
     {
         $this->enableManifest = $enable;
         $this->rebuildManifestAlways = $rebuildAlways;
+        $this->prepareManifest();
     }
 
     /**
