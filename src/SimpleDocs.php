@@ -184,7 +184,7 @@ class SimpleDocs
             }
             else
             {
-               $this->parseDirectory(trim($directory) . '/' . $file);
+               $this->parseDirectory(rtrim($directory) . '/' . $file);
             }
         }
     }
@@ -206,7 +206,7 @@ class SimpleDocs
             if(!$this->filesystem->exists($manifestPath) || ($this->rebuildManifestAlways && $this->filesystem->exists($manifestPath)))
             {
                 $this->parseDirectory();
-                $this->filesystem->dumpFile($manifestPath, json_encode($this->manifest, JSON_PRETTY_PRINT));
+                $this->filesystem->dumpFile($manifestPath, json_encode($this->manifest, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
             }
         }
     }
