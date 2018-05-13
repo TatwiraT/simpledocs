@@ -12,6 +12,8 @@ namespace SimpleDocs;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 use SimpleDocs\Exception\{DocumentDirectoryNotFound, FileNotFound, SimpleDocsException};
+use Parsedown;
+use Symfony\Component\DomCrawler\Crawler;
 
 class SimpleDocs
 {
@@ -27,6 +29,11 @@ class SimpleDocs
 
     private $rebuildManifestAlways = false;
 
+    private $parsedown;
+
+    private $sections = [];
+
+    private $title;
 
     /**
      * Class constructor
@@ -40,6 +47,8 @@ class SimpleDocs
     public function __construct(string $baseDir)
     {
         $this->filesystem = new Filesystem();
+
+        $this->parsedown = new Parsedown();
 
         if(!$this->filesystem->exists($baseDir))
         {
@@ -91,6 +100,51 @@ class SimpleDocs
     {
         $this->twigEnvironment = $twig;
         return $this;
+    }
+
+    /**
+     * Parse a markdown file for sections
+     *
+     * @param  string  $path file path
+     *
+     * @return array
+     *
+     * @access public
+     */
+    public function parseSections(string $path)
+    {
+        $GLOBALS['sections'] = [];
+
+        $this->title = null;
+
+        if($this->filesystem->exists($path) && substr($path,-3) == '.md')
+        {
+            $file = file_get_contents($path);
+            $html = $this->parsedown->text($file);
+            $crawler = new Crawler($html);
+
+            for($h = 1; $h <= 6; $h++)
+            {
+                $crawler->filter('h'.$h)->reduce(function (Crawler $heading, $i){
+                    if($this->title === null)
+                    {
+                        $this->title = trim($heading->text());
+                    }
+
+                    if($heading->filter('a')->count() > 0)
+                    {
+                        $heading->filter('a')->reduce(function (Crawler $link, $i) use($heading){
+                            if($link->attr('name') !== null)
+                            {
+                                $GLOBALS['sections'][trim($heading->text())] = $link->attr('name');
+                            }
+                        });
+                    }
+                });
+            }
+        }
+
+        return $GLOBALS['sections'];
     }
 
 
@@ -180,6 +234,8 @@ class SimpleDocs
                 }
 
                 $this->manifest[$basename]['attributes'] = $this->parseAttributes($fullPath);
+                $this->manifest[$basename]['sections'] = $this->parseSections($fullPath);
+                $this->manifest[$basename]['title'] = $this->title;
                 $this->manifest[$basename]['path'] = $fullPath;
             }
             else
@@ -287,5 +343,10 @@ class SimpleDocs
         $doc = new SimpleDocsFile($this, $path);
 
         return $doc;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
     }
 }

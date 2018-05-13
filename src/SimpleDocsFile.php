@@ -27,6 +27,10 @@ class SimpleDocsFile
 
     private $lastModified;
 
+    private $sections;
+
+    private $title;
+
     /**
      * Class constructor
      *
@@ -44,6 +48,8 @@ class SimpleDocsFile
         $this->parsedown    = new \Parsedown();
         $this->lastModified = (int) filemtime($path);
         $this->attributes   = $instance->parseAttributes($path);
+        $this->sections     = $instance->parseSections($path);
+        $this->title        = $instance->getTitle();
         $this->ouput        = $this->parsedown->text($this->content);
     }
 
@@ -53,12 +59,15 @@ class SimpleDocsFile
         return $this->attributes;
     }
 
-
     public function getLastModified()
     {
         return $this->lastModified;
     }
 
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
     public function render(array $vars = [], bool $return = false)
     {
@@ -95,10 +104,11 @@ class SimpleDocsFile
         $output =  $this->render($vars, true);
 
         return [
-            'output'     => $output,
+            'title'      => $this->title,
+            'sections'   => $this->sections,
             'attributes' => $this->attributes,
+            'output'     => $output,
             'document'   => $this,
         ];
     }
-
 }

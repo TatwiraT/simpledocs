@@ -13,6 +13,7 @@
     "require": {
         "php": ">=7.0.0",
         "symfony/filesystem" : "~3.0 || ~4.0",
+        "symfony/dom-crawler" : "~3.0 || ~4.0",
         "erusev/parsedown" : "~1.0"
     },
     "autoload": {
