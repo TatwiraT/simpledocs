@@ -1,6 +1,8 @@
-# SimpleDocs
+<p align="center">
+    <img src="https://ingenia.me/images/simpledocs-logo.png" width="100" />
+</p>
 
-SimpleDocs is a dynamic documentation library for PHP which uses Markdown files.
+**SimpleDocs** is a dynamic documentation library for PHP which uses Markdown files. _Project under development, more documentation coming soon_
 
 ### Features
 
@@ -56,8 +58,7 @@ catch(FileNotFound $e)
 $page->render();
 ```
 
-### Donate
+## Donate
 
-[Paypal](https://paypal.me/andersalasm)
+If you love our work, you can support us via [Paypal](https://paypal.me/andersalasm) or [Patreon](https://patreon.com/ingeniasoftware) 
 
-_Project under development, more documentation coming soon_
