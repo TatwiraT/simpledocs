@@ -1,13 +1,19 @@
 {
-    "name": "simpledocs/simpledocs",
-    "description": "SimpleDocs is a dynamic documentation library for PHP which uses Markdown files",
-    "type": "library",
-    "license": "MIT",
+    "name"       : "simpledocs/simpledocs",
+    "type"       : "library",
+    "description": "Dynamic documentation library for PHP which uses Markdown files",
+    "license"    : "MIT",
+    "homepage"   : "https://simpledocs.ingenia.me/en/",
     "authors": [
         {
-            "name": "Anderson Salas",
-            "email": "anderson@ingenia.me"
+            "name"    : "Anderson Salas",
+            "email"   : "anderson@ingenia.me",
+            "homepage": "https://ingenia.me",
+            "role"    : "Lead developer"
         }
+    ],
+    "keywords": [
+        "documentation", "markdown", "docs"
     ],
     "minimum-stability": "stable",
     "require": {
@@ -15,6 +21,12 @@
         "symfony/filesystem" : "~3.0 || ~4.0",
         "symfony/dom-crawler" : "~3.0 || ~4.0",
         "erusev/parsedown" : "~1.0"
+    },
+    "require-dev": {
+
+    },
+    "support": {
+        "email": "anderson@ingenia.me"
     },
     "autoload": {
         "psr-4": {

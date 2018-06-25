@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://ingenia.me/images/simpledocs-logo.png" width="100" />
+    <img src="https://ingenia.me/images/simpledocs.png" width="100" />
 </p>
 
 **SimpleDocs** is a dynamic documentation library for PHP which uses Markdown files. _Project under development, more documentation coming soon_
