@@ -2,13 +2,14 @@
     <img src="https://ingenia.me/images/simpledocs.png" width="100" />
 </p>
 
-**SimpleDocs** is a dynamic documentation library for PHP which uses Markdown files. _Project under development, more documentation coming soon_
+<p align="center"><strong>WARNING: Under development!</strong></p>
+
+**SimpleDocs** is a documentation library for PHP which uses Markdown files.
 
 ### Features
 
-* Dynamic routing
-* Markdown file attributes: strings that can be fetched from documents
-* Twig template post-processing (optional)
+* Dynamic routing: all docs are parsed on-the-fly and served as HTML
+* Markdown file attributes: special attributes that can be parsed from documents
 
 ### Requirements
 
@@ -58,7 +59,15 @@ catch(FileNotFound $e)
 $page->render();
 ```
 
-## Donate
+### Documentation
 
-If you love our work, you can support us via [Paypal](https://paypal.me/andersalasm) or [Patreon](https://patreon.com/ingeniasoftware) 
+Coming soon!
 
+### Related projects
+
+* [Luthier CI](https://github.com/ingeniasoftware/luthier-ci): Improved routing, middleware support, authentication tools and more for CodeIgniter 3 framework
+* [Luthier Framework](https://github.com/ingeniasoftware/luthier-framework): Versatile PHP micro-framework for build APIs and websites quickly
+
+### Donate
+
+If you love our work,  consider support us on [Patreon](https://patreon.com/ingenia)
